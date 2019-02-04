@@ -1,16 +1,5 @@
 import uuid from 'uuid';
 import database from '../firebase/firebase';
-// Normal process:
-// Component calls action generator
-// action generator returns object
-// component dispatches object
-// redux store changes
-
-// Async process:
-// Component calls action generator
-// action generator returns function
-// component dispatches function (?)
-// function runs (has the ability to dispatch other actions and do whatever it wants)
 
 // ADD_EXPENSE
 export const addExpense = (expense) => ({
