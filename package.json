@@ -7,7 +7,7 @@
   "engines": {
     "node": "10.15.1",
     "yarn": "1.10.1"
-  }
+  },
   "scripts": {
     "build:dev": "webpack",
     "build:prod": "webpack -p --env production",
