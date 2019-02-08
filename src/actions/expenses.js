@@ -1,5 +1,3 @@
-import uuid from 'uuid';
-import database from '../firebase/firebase';
 // Normal process:
 // Component calls action generator
 // action generator returns object
@@ -11,6 +9,10 @@ import database from '../firebase/firebase';
 // action generator returns function
 // component dispatches function (?)
 // function runs (has the ability to dispatch other actions and do whatever it wants)
+
+// ADD_EXPENSE
+import uuid from 'uuid';
+import database from '../firebase/firebase';
 
 // ADD_EXPENSE
 export const addExpense = (expense) => ({
