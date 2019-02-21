@@ -7,7 +7,7 @@
 // Async process:
 // Component calls action generator
 // action generator returns function
-// component dispatches function (?)
+// component dispatches function (?), requires redux middleware redux-thunk
 // function runs (has the ability to dispatch other actions and do whatever it wants)
 
 // ADD_EXPENSE
@@ -15,6 +15,7 @@ import uuid from 'uuid';
 import database from '../firebase/firebase';
 
 // ADD_EXPENSE
+// Actually changes the store
 export const addExpense = (expense) => ({
   type: 'ADD_EXPENSE',
   expense
@@ -22,6 +23,7 @@ export const addExpense = (expense) => ({
 
 export const startAddExpense = (expenseData = {}) => {
   return (dispatch) => {
+    // Same as defining things in the function arguments
     const {
       description = '',
       note = '',
@@ -51,3 +53,36 @@ export const editExpense = (id, updates) => ({
   id,
   updates
 });
+
+// SET_EXPENSES
+export const setExpenses = (expenses) => ({
+  type: 'SET_EXPENSES',
+  expenses
+});
+
+// export const startSetExpenses;
+
+export const startSetExpenses = () => {
+  return (dispatch) => {
+    // returns a promise
+    return database.ref('expenses')
+    .once('value')
+    .then((snapshot) => {
+      const expenses = [];
+  
+      snapshot.forEach((childSnapshot) => {
+        expenses.push({
+          id: childSnapshot.key,
+          ...childSnapshot.val()
+        });
+      dispatch(setExpenses(expenses));
+      });
+    });
+  };
+
+  
+};
+
+// 1. Fetch all expense data once
+// 2. Parse that data into an array
+// 3. Dispatch SET_EXPENSES
