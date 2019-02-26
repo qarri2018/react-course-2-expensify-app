@@ -2,6 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import expenses from '../fixtures/expenses';
 import { EditExpensePage } from '../../components/EditExpensePage';
+import ReactModal from 'react-modal';
+
 
 let startEditExpense, startRemoveExpense, history, wrapper;
 
@@ -15,6 +17,7 @@ beforeEach(() => {
       startRemoveExpense={startRemoveExpense}
       history={history}
       expense={expenses[2]}
+      
     />
   );
 });
@@ -29,8 +32,13 @@ test('should handle startEditExpense', () => {
   expect(startEditExpense).toHaveBeenLastCalledWith(expenses[2].id, expenses[2]);
 });
 
-test('should handle startRemoveExpense', () => {
+test('should render removeExpenseModal', () => {
   wrapper.find('button').simulate('click');
+  expect(wrapper.find('RemoveExpenseModal').prop('showModal')).toEqual(true);
+});
+
+test('should handle startRemoveExpense', () => {
+  wrapper.find('RemoveExpenseModal').prop('onRemove')();
   expect(history.push).toHaveBeenLastCalledWith('/');
   expect(startRemoveExpense).toHaveBeenLastCalledWith({
     id: expenses[2].id
